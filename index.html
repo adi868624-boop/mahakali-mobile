@@ -12,6 +12,9 @@
         h2 { color: #0056b3; margin-top: 0; display: flex; align-items: center; gap: 10px; font-size: 24px; justify-content: center; }
         label { font-weight: bold; display: block; margin: 15px 0 5px; color: #333; }
         input, select { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; font-size: 16px; }
+        .service-group { display: flex; gap: 10px; }
+        .btn-fetch { background: #0056b3; color: white; border: none; padding: 10px 15px; border-radius: 4px; font-weight: bold; cursor: pointer; white-space: nowrap; }
+        .btn-fetch:hover { background: #004085; }
         .wallet-bal { color: #28a745; font-size: 28px; font-weight: bold; margin: 15px 0; }
         .btn-pay { background: #28a745; color: white; border: none; padding: 12px; width: 100%; border-radius: 4px; font-size: 18px; font-weight: bold; cursor: pointer; margin-top: 20px; }
         .btn-add { background: #0056b3; color: white; border: none; padding: 10px; width: 100%; border-radius: 4px; font-size: 16px; font-weight: bold; cursor: pointer; margin-top: 10px; }
@@ -24,7 +27,10 @@
         <h2>⚡ Mahakali Digital Services</h2>
         
         <label>Service / Consumer Number:</label>
-        <input type="text" placeholder="Enter Service Number">
+        <div class="service-group">
+            <input type="text" id="service_no" placeholder="Enter Service Number">
+            <button type="button" class="btn-fetch" id="open_tp_btn">🔍 Check Bill</button>
+        </div>
         
         <label>Company / Board Select Karein:</label>
         <select>
@@ -34,13 +40,13 @@
         </select>
         
         <label>Customer Name:</label>
-        <input type="text" placeholder="Customer Name automatic aayega" readonly style="background-color: #f0f0f0;">
+        <input type="text" id="cust_name" placeholder="Enter Customer Name">
         
         <label>Customer Mobile No:</label>
         <input type="text" placeholder="Enter Mobile Number">
         
         <label>Bill Amount (₹):</label>
-        <input type="text" placeholder="Amount automatic aayega" readonly style="background-color: #f0f0f0;">
+        <input type="text" id="bill_amt" placeholder="Enter Amount">
         
         <button class="btn-pay">Receipt / Pauti Banayein</button>
     </div>
@@ -52,6 +58,18 @@
         <button class="btn-add">+ Add Money</button>
     </div>
 </div>
+
+<script>
+document.getElementById('open_tp_btn').addEventListener('click', () => {
+    const serviceNo = document.getElementById('service_no').value.trim();
+    if (serviceNo === "") {
+        alert("Pehle Service Number dalein!");
+        return;
+    }
+    // Torrent Power ka official quick pay portal naye tab mein kholna
+    window.open("https://www.torrentpower.com/index.php/site/cls_qp/quick_pay", "_blank");
+});
+</script>
 
 </body>
 </html>
