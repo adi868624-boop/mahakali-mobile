@@ -13,8 +13,8 @@
         label { font-weight: bold; display: block; margin: 15px 0 5px; color: #333; }
         input, select { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; font-size: 16px; }
         .service-group { display: flex; gap: 10px; }
-        .btn-fetch { background: #0056b3; color: white; border: none; padding: 10px 15px; border-radius: 4px; font-weight: bold; cursor: pointer; white-space: nowrap; font-size: 16px; }
-        .btn-fetch:hover { background: #004085; }
+        .btn-fetch { background: #e67e22; color: white; border: none; padding: 10px 15px; border-radius: 4px; font-weight: bold; cursor: pointer; white-space: nowrap; font-size: 16px; }
+        .btn-fetch:hover { background: #d35400; }
         .wallet-bal { color: #28a745; font-size: 28px; font-weight: bold; margin: 15px 0; }
         .btn-pay { background: #28a745; color: white; border: none; padding: 12px; width: 100%; border-radius: 4px; font-size: 18px; font-weight: bold; cursor: pointer; margin-top: 20px; }
         .btn-add { background: #0056b3; color: white; border: none; padding: 10px; width: 100%; border-radius: 4px; font-size: 16px; font-weight: bold; cursor: pointer; margin-top: 10px; }
@@ -29,24 +29,24 @@
         <label>Service / Consumer Number:</label>
         <div class="service-group">
             <input type="text" id="service_no" placeholder="Enter Service Number">
-            <button type="button" class="btn-fetch" id="open_tp_btn">🔍 Check Bill</button>
+            <button type="button" class="btn-fetch" id="open_tp_btn">⚡ Go to Torrent Power</button>
         </div>
         
         <label>Company / Board Select Karein:</label>
-        <select>
-            <option>Torrent Power</option>
-            <option>UGVCL</option>
-            <option>PGVCL</option>
+        <select id="board_select">
+            <option value="torrent">Torrent Power</option>
+            <option value="ugvcl">UGVCL</option>
+            <option value="pgvcl">PGVCL</option>
         </select>
         
         <label>Customer Name:</label>
-        <input type="text" id="cust_name" placeholder="Enter Customer Name">
+        <input type="text" id="cust_name" placeholder="Asli Naam Yahan Likhein">
         
         <label>Customer Mobile No:</label>
         <input type="text" placeholder="Enter Mobile Number">
         
         <label>Bill Amount (₹):</label>
-        <input type="text" id="bill_amt" placeholder="Enter Amount">
+        <input type="text" id="bill_amt" placeholder="Asli Amount Yahan Likhein">
         
         <button class="btn-pay">Receipt / Pauti Banayein</button>
     </div>
@@ -61,13 +61,8 @@
 
 <script>
 document.getElementById('open_tp_btn').addEventListener('click', () => {
-    const serviceNo = document.getElementById('service_no').value.trim();
-    if (serviceNo === "") {
-        alert("Pehle Service Number dalein!");
-        return;
-    }
-    // Torrent Power ka ekdum sahi aur short main link
-    window.open("https://www.torrentpower.com", "_blank");
+    // Torrent Power ki main official desk kholna jahan se error nahi aayegi
+    window.open("https://www.torrentpower.com/", "_blank");
 });
 </script>
 
