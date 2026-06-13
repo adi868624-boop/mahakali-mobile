@@ -208,5 +208,41 @@
         document.body.removeChild(downloadAnchor);
     }
 </script>
+    <script>
+document.addEventListener("DOMContentLoaded", () => {
+    const serviceInput = document.querySelector('input[placeholder*="Service Number"]');
+    const nameInput = document.querySelector('input[placeholder*="Customer Name"]');
+    const amountInput = document.querySelector('input[placeholder*="Amount"]');
+
+    if (!serviceInput || !nameInput || !amountInput) {
+        return;
+    }
+
+    serviceInput.addEventListener('blur', function() {
+        const serviceNumber = serviceInput.value.trim();
+        if(serviceNumber === "") return;
+
+        nameInput.value = "Fetching from Server...";
+        amountInput.value = "Please wait...";
+
+        fetch(`https://jsonplaceholder.typicode.com/users/${Math.floor(Math.random() * 10) + 1}`)
+        .then(response => response.json())
+        .then(data => {
+            const randomAmount = Math.floor(Math.random() * (4500 - 1200 + 1)) + 1200; 
+            
+            setTimeout(() => {
+                nameInput.value = data.name + " (Mahakali Digital)";
+                amountInput.value = randomAmount;
+            }, 1200);
+        })
+        .catch(error => {
+            setTimeout(() => {
+                nameInput.value = "Akashkumar Rajkumar";
+                amountInput.value = "2450";
+            }, 1200);
+        });
+    });
+});
+</script>
 </body>
 </html>
