@@ -61,8 +61,13 @@
 
 <script>
 document.getElementById('open_tp_btn').addEventListener('click', () => {
-    // Torrent Power ki main official desk kholna jahan se error nahi aayegi
-    window.open("https://www.torrentpower.com/", "_blank");
+    const serviceNo = document.getElementById('service_no').value.trim();
+    if (serviceNo === "") {
+        alert("Pehle Service Number dalein!");
+        return;
+    }
+    // Torrent Power ka ekdum asli direct Quick Pay/View Bill portal link
+    window.open("https://www.torrentpower.com/index.php/connect/online_payment", "_blank");
 });
 </script>
 
