@@ -17,6 +17,7 @@
         .btn-fetch:hover { background: #d35400; }
         .wallet-bal { color: #28a745; font-size: 28px; font-weight: bold; margin: 15px 0; }
         .btn-pay { background: #28a745; color: white; border: none; padding: 12px; width: 100%; border-radius: 4px; font-size: 18px; font-weight: bold; cursor: pointer; margin-top: 20px; }
+        .btn-pay:hover { background: #218838; }
         .btn-add { background: #0056b3; color: white; border: none; padding: 10px; width: 100%; border-radius: 4px; font-size: 16px; font-weight: bold; cursor: pointer; margin-top: 10px; }
     </style>
 </head>
@@ -28,27 +29,27 @@
         
         <label>Service / Consumer Number:</label>
         <div class="service-group">
-            <input type="text" id="service_no" placeholder="Enter Service Number">
+            <input type="text" id="service_no" placeholder="Enter Service Number" value="1339097">
             <button type="button" class="btn-fetch" id="open_tp_btn">⚡ Go to Torrent Power</button>
         </div>
         
         <label>Company / Board Select Karein:</label>
         <select id="board_select">
-            <option value="torrent">Torrent Power</option>
-            <option value="ugvcl">UGVCL</option>
-            <option value="pgvcl">PGVCL</option>
+            <option value="Torrent Power">Torrent Power</option>
+            <option value="UGVCL">UGVCL</option>
+            <option value="PGVCL">PGVCL</option>
         </select>
         
         <label>Customer Name:</label>
         <input type="text" id="cust_name" placeholder="Asli Naam Yahan Likhein">
         
         <label>Customer Mobile No:</label>
-        <input type="text" placeholder="Enter Mobile Number">
+        <input type="text" id="cust_mobile" placeholder="Enter Mobile Number">
         
         <label>Bill Amount (₹):</label>
         <input type="text" id="bill_amt" placeholder="Asli Amount Yahan Likhein">
         
-        <button class="btn-pay">Receipt / Pauti Banayein</button>
+        <button class="btn-pay" id="make_receipt_btn">Receipt / Pauti Banayein</button>
     </div>
 
     <div class="wallet-section">
@@ -60,14 +61,84 @@
 </div>
 
 <script>
+// Torrent Power kholne ka button logic
 document.getElementById('open_tp_btn').addEventListener('click', () => {
     const serviceNo = document.getElementById('service_no').value.trim();
     if (serviceNo === "") {
         alert("Pehle Service Number dalein!");
         return;
     }
-    // Torrent Power ka main portal link jo hamesha bina error ke khulega
     window.open("https://www.torrentpower.com", "_blank");
+});
+
+// Receipt generation dynamic print logic
+document.getElementById('make_receipt_btn').addEventListener('click', () => {
+    const serviceNo = document.getElementById('service_no').value.trim();
+    const board = document.getElementById('board_select').value;
+    const name = document.getElementById('cust_name').value.trim();
+    const mobile = document.getElementById('cust_mobile').value.trim() || "N/A";
+    const amount = document.getElementById('bill_amt').value.trim();
+
+    if (serviceNo === "" || name === "" || amount === "") {
+        alert("Kripya Service Number, Customer Name aur Bill Amount poora bharein!");
+        return;
+    }
+
+    // Aaj ki date aur time automatic nikalne ke liye
+    const currentDateTime = new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' });
+
+    // Receipt ka sundar styling and print format layout
+    const receiptWindow = window.open("", "_blank", "width=600,height=700");
+    receiptWindow.document.write(`
+        <html>
+        <head>
+            <title>Receipt - Mahakali Digital Services</title>
+            <style>
+                body { font-family: 'Courier New', Courier, monospace; padding: 20px; color: #000; background: #fff; }
+                .receipt-box { border: 2px dashed #000; padding: 20px; max-width: 450px; margin: auto; }
+                .header { text-align: center; border-bottom: 1px dashed #000; padding-bottom: 10px; margin-bottom: 15px; }
+                .header h1 { margin: 0; font-size: 22px; text-transform: uppercase; }
+                .header p { margin: 5px 0 0 0; font-size: 14px; }
+                .row { display: flex; justify-content: space-between; margin: 8px 0; font-size: 15px; }
+                .label { font-weight: bold; }
+                .total-row { border-top: 1px dashed #000; border-bottom: 1px dashed #000; padding: 10px 0; margin-top: 15px; font-size: 18px; font-weight: bold; display: flex; justify-content: space-between; }
+                .footer { text-align: center; margin-top: 25px; font-size: 13px; font-style: italic; }
+                .print-btn-container { text-align: center; margin-top: 20px; }
+                @media print { .print-btn-container { display: none; } }
+                .btn-print { background: #28a745; color: white; border: none; padding: 8px 20px; font-size: 16px; font-weight: bold; cursor: pointer; border-radius: 4px; }
+            </style>
+        </head>
+        <body>
+            <div class="receipt-box">
+                <div class="header">
+                    <h1>🙏 MAHAKALI MOBILE 🙏</h1>
+                    <p>Digital Transaction & Bill Payment Hub</p>
+                    <p style="font-size: 12px; margin-top: 5px;">Date/Time: ${currentDateTime}</p>
+                </div>
+                
+                <div class="row"><span class="label">Board/Company:</span><span>${board}</span></div>
+                <div class="row"><span class="label">Consumer No:</span><span>${serviceNo}</span></div>
+                <div class="row"><span class="label">Customer Name:</span><span>${name}</span></div>
+                <div class="row"><span class="label">Mobile No:</span><span>${mobile}</span></div>
+                <div class="row"><span class="label">Status:</span><span style="color: green; font-weight: bold;">SUCCESS</span></div>
+                
+                <div class="total-row">
+                    <span>PAID AMOUNT:</span>
+                    <span>₹${amount}/-</span>
+                </div>
+                
+                <div class="footer">
+                    <p>Thank you for visiting Mahakali Mobile!</p>
+                    <p>Apna dhyan rakhein, fir aayein! 🙏</p>
+                </div>
+            </div>
+            <div class="print-btn-container">
+                <button class="btn-print" onclick="window.print()">🖨️ Click to Print Receipt</button>
+            </div>
+        </body>
+        </html>
+    `);
+    receiptWindow.document.close();
 });
 </script>
 
