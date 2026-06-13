@@ -5,244 +5,89 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mahakali Digital Services</title>
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f7f6; margin: 0; padding: 20px; display: flex; justify-content: center; }
-        .container { background: #fff; padding: 30px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); width: 100%; max-width: 800px; position: relative; }
-        
-        /* Layout Grid for Main Form and Sidebar Wallet */
-        .main-layout { display: flex; gap: 30px; margin-top: 20px; }
-        .form-section { flex: 1; }
-        
-        h2 { text-align: center; color: #0056b3; margin-bottom: 25px; }
-        label { font-weight: bold; display: block; margin-bottom: 8px; color: #333; }
-        select, input { width: 100%; padding: 12px; margin-bottom: 20px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box; font-size: 16px; }
-        button { width: 100%; padding: 12px; background: #28a745; color: white; border: none; border-radius: 5px; font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.3s; }
-        button:hover { background: #218838; }
-        
-        /* Side Wallet Style with Logo */
-        .wallet-sidebar { width: 250px; background: #e9ecef; padding: 20px; border-radius: 8px; border-top: 5px solid #0056b3; align-self: flex-start; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
-        .wallet-header { display: flex; align-items: center; gap: 10px; font-weight: bold; color: #333; font-size: 18px; margin-bottom: 15px; }
-        .wallet-icon { font-size: 24px; }
-        .wallet-balance { font-size: 24px; font-weight: bold; color: #28a745; margin-bottom: 15px; }
-        .wallet-input-group { display: flex; flex-direction: column; gap: 10px; }
-        .wallet-input-group input { margin-bottom: 0; padding: 10px; font-size: 14px; }
-        .wallet-input-group button { padding: 10px; background: #0056b3; font-size: 14px; }
-        .wallet-input-group button:hover { background: #004085; }
-
-        /* Form fields hidden by default */
-        .hidden-fields-container { display: none; }
-        
-        /* Receipt Style */
-        .receipt-box { background: #fff; border: 2px dashed #333; padding: 20px; margin-top: 25px; display: none; font-family: monospace; width: 100%; max-width: 500px; margin-left: auto; margin-right: auto; }
-        .receipt-header { text-align: center; border-bottom: 1px dashed #333; padding-bottom: 10px; margin-bottom: 10px; }
-        .receipt-row { display: flex; justify-content: space-between; margin: 5px 0; font-size: 14px; }
-        .print-btn { background: #ffc107; color: #000; margin-top: 15px; }
-        .print-btn:hover { background: #e0a800; }
-
-        @media print {
-            body * { visibility: hidden; }
-            #receiptBox, #receiptBox * { visibility: visible; }
-            #receiptBox { position: absolute; left: 0; top: 0; width: 100%; border: none; }
-            .print-btn { display: none; }
-        }
+        body { font-family: Arial, sans-serif; background-color: #f4f6f9; margin: 0; padding: 20px; display: flex; justify-content: center; }
+        .container { background: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); width: 100%; max-width: 800px; display: flex; gap: 30px; }
+        .main-form { flex: 2; }
+        .wallet-section { flex: 1; background: #eef2f7; padding: 20px; border-radius: 8px; border-left: 5px solid #0056b3; height: fit-content; text-align: center; }
+        h2 { color: #0056b3; margin-top: 0; display: flex; align-items: center; gap: 10px; font-size: 24px; justify-content: center; }
+        label { font-weight: bold; display: block; margin: 15px 0 5px; color: #333; }
+        input, select { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; font-size: 16px; }
+        .wallet-bal { color: #28a745; font-size: 28px; font-weight: bold; margin: 15px 0; }
+        .btn-pay { background: #28a745; color: white; border: none; padding: 12px; width: 100%; border-radius: 4px; font-size: 18px; font-weight: bold; cursor: pointer; margin-top: 20px; }
+        .btn-add { background: #0056b3; color: white; border: none; padding: 10px; width: 100%; border-radius: 4px; font-size: 16px; font-weight: bold; cursor: pointer; margin-top: 10px; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h2>⚡ Mahakali Digital Services</h2>
-    
-    <div id="lockBlock">
-        <label for="consumerNumber">Service / Consumer Number:</label>
-        <input type="text" id="consumerNumber" placeholder="Enter Service Number" required>
-        <button id="mainBtn" onclick="handleAction()">Receipt / Pauti Banayein</button>
-    </div>
-
-    <div id="secureBlock" class="hidden-fields-container">
-        <div class="main-layout">
-            
-            <div class="form-section">
-                <label for="asliConsumerNumber">Service / Consumer Number:</label>
-                <input type="text" id="asliConsumerNumber" placeholder="Ab asli Service Number dalein">
-
-                <label for="board">Company / Board Select Karein:</label>
-                <select id="board">
-                    <option value="Torrent Power">Torrent Power</option>
-                    <option value="UGVCL">UGVCL (Uttar Gujarat)</option>
-                    <option value="PGVCL">PGVCL (Paschim Gujarat)</option>
-                    <option value="MGVCL">MGVCL (Madhya Gujarat)</option>
-                    <option value="DGVCL">DGVCL (Dakshin Gujarat)</option>
-                </select>
-
-                <label for="customerName">Customer Name:</label>
-                <input type="text" id="customerName" placeholder="Enter Customer Name">
-
-                <label for="customerMobile">Customer Mobile No:</label>
-                <input type="text" id="customerMobile" placeholder="Enter Mobile Number">
-
-                <label for="billAmount">Bill Amount (₹):</label>
-                <input type="number" id="billAmount" placeholder="Enter Amount">
-
-                <button id="receiptBtn" onclick="generateReceipt()">Receipt / Pauti Banayein</button>
-            </div>
-            
-            <div class="wallet-sidebar">
-                <div class="wallet-header">
-                    <span class="wallet-icon">👛</span>
-                    <span>My Wallet</span>
-                </div>
-                <div class="wallet-balance">₹<span id="balanceDisplay">10000</span></div>
-                <div class="wallet-input-group">
-                    <input type="number" id="addAmountInput" placeholder="Amount dalein">
-                    <button onclick="addWalletMoney()">+ Add Money</button>
-                </div>
-            </div>
-
-        </div>
-    </div>
-
-    <div id="receiptBox" class="receipt-box">
-        <div class="receipt-header">
-            <h3>MAHAKALI DIGITAL SERVICES</h3>
-            <p>E-Receipt / Pauti</p>
-        </div>
-        <div class="receipt-row"><span>Date/Time:</span> <span id="rDateTime"></span></div>
-        <div class="receipt-row"><span>Txn ID:</span> <span id="rTxnId" style="font-weight: bold;"></span></div>
-        <hr style="border-top: 1px dashed #333;">
-        <div class="receipt-row"><span>Board/Company:</span> <span id="rBoard"></span></div>
-        <div class="receipt-row"><span>Service No:</span> <span id="rConsumer"></span></div>
-        <div class="receipt-row"><span>Customer Name:</span> <span id="rName"></span></div>
-        <div class="receipt-row"><span>Mobile No:</span> <span id="rMobile"></span></div>
-        <hr style="border-top: 1px dashed #333;">
-        <div class="receipt-row" style="font-size: 16px; font-weight: bold;"><span>Amount Paid:</span> <span id="rAmount"></span></div>
-        <div class="receipt-row" style="color: green; font-weight: bold; justify-content: center; margin-top: 10px;">-- TRANSACTION SUCCESSFUL --</div>
+    <div class="main-form">
+        <h2>⚡ Mahakali Digital Services</h2>
         
-        <button class="print-btn" onclick="window.print()">Print Receipt</button>
+        <label>Service / Consumer Number:</label>
+        <input type="text" placeholder="Ab asli Service Number dalein">
+        
+        <label>Company / Board Select Karein:</label>
+        <select>
+            <option>Torrent Power</option>
+            <option>UGVCL</option>
+            <option>PGVCL</option>
+        </select>
+        
+        <label>Customer Name:</label>
+        <input type="text" placeholder="Enter Customer Name">
+        
+        <label>Customer Mobile No:</label>
+        <input type="text" placeholder="Enter Mobile Number">
+        
+        <label>Bill Amount (₹):</label>
+        <input type="text" placeholder="Enter Amount">
+        
+        <button class="btn-pay">Receipt / Pauti Banayein</button>
+    </div>
+
+    <div class="wallet-section">
+        <h3 style="margin: 0; display: flex; align-items: center; gap: 8px; justify-content: center;"><span style="font-size:20px;">🛡️</span> My Wallet</h3>
+        <div class="wallet-bal">₹10000</div>
+        <input type="number" placeholder="Amount dalein" style="margin-bottom: 10px;">
+        <button class="btn-add">+ Add Money</button>
     </div>
 </div>
 
 <script>
-    let isUnlocked = false;
-    let currentBalance = 10000; // Starting wallet balance
-
-    // 1. System Lock/Unlock function
-    function handleAction() {
-        const inputVal = document.getElementById('consumerNumber').value;
-        if (inputVal === "openmahakali") {
-            isUnlocked = true;
-            document.getElementById('lockBlock').style.display = 'none';
-            document.getElementById('secureBlock').style.display = 'block';
-        } else {
-            alert("Galat Service Number!");
-        }
-    }
-
-    // 2. Wallet mein paise add karne ke liye
-    function addWalletMoney() {
-        const amountToAdd = parseFloat(document.getElementById('addAmountInput').value);
-        if(isNaN(amountToAdd) || amountToAdd <= 0) {
-            alert("Kripya sahi amount dalein!");
-            return;
-        }
-        currentBalance += amountToAdd;
-        document.getElementById('balanceDisplay').innerText = currentBalance.toFixed(2);
-        document.getElementById('addAmountInput').value = ""; 
-        alert("Wallet mein ₹" + amountToAdd + " jod diye gaye hain!");
-    }
-
-    // 3. Receipt Generate aur Excel (.csv) auto-download karne ke liye
-    function generateReceipt() {
-        const inputVal = document.getElementById('asliConsumerNumber').value;
-        const board = document.getElementById('board').value;
-        const customerName = document.getElementById('customerName').value;
-        const customerMobile = document.getElementById('customerMobile').value;
-        const billAmount = parseFloat(document.getElementById('billAmount').value);
-
-        if(!inputVal || !customerName || !customerMobile || isNaN(billAmount) || billAmount <= 0) { 
-            alert("Kripya saari jankari bharein!"); 
-            return; 
-        }
-
-        if(billAmount > currentBalance) {
-            alert("Insufficient Balance! Apne wallet mein paise jodiye.");
-            return;
-        }
-
-        // Wallet Balance Kam karein
-        currentBalance -= billAmount;
-        document.getElementById('balanceDisplay').innerText = currentBalance.toFixed(2);
-
-        // Date and Time Setup
-        const now = new Date();
-        const currentDate = now.toLocaleDateString('en-IN').replace(/\//g, '-');
-        const currentTime = now.toLocaleTimeString('en-IN');
-        const transactionId = "TXN" + Math.floor(10000000 + Math.random() * 90000000);
-
-        // HTML Receipt me data bharein
-        document.getElementById('rDateTime').innerText = currentDate + " " + currentTime;
-        document.getElementById('rTxnId').innerText = transactionId;
-        document.getElementById('rBoard').innerText = board;
-        document.getElementById('rConsumer').innerText = inputVal;
-        document.getElementById('rName').innerText = customerName;
-        document.getElementById('rMobile').innerText = customerMobile;
-        document.getElementById('rAmount').innerText = "₹" + billAmount;
-        
-        document.getElementById('receiptBox').style.display = 'block';
-        document.getElementById('receiptBox').scrollIntoView({ behavior: 'smooth' });
-
-        // AUTOMATIC EXCEL (CSV) GENERATION
-        // Excel headers aur data lines
-        const csvHeaders = "Transaction ID,Date,Time,Company Board,Consumer Number,Customer Name,Mobile Number,Amount Paid,Remaining Wallet\n";
-        const csvRow = `"${transactionId}","${currentDate}","${currentTime}","${board}","${inputVal}","${customerName}","${customerMobile}","₹${billAmount}","₹${currentBalance.toFixed(2)}"\n`;
-        const csvContent = "data:text/csv;charset=utf-8," + encodeURIComponent(csvHeaders + csvRow);
-        
-        // File downloading link creation
-        const downloadAnchor = document.createElement('a');
-        downloadAnchor.setAttribute("href", csvContent);
-        
-        // File name format: CustomerName_Date_Time.csv (e.g. Ramesh_13-06-2026_14-45-00.csv)
-        const safeTimeName = currentTime.replace(/:/g, '-');
-        downloadAnchor.setAttribute("download", `${customerName.replace(/\s+/g, '_')}_${currentDate}_${safeTimeName}.csv`);
-        
-        document.body.appendChild(downloadAnchor);
-        downloadAnchor.click(); // Auto click to download
-        document.body.removeChild(downloadAnchor);
-    }
-</script>
-    <script>
 document.addEventListener("DOMContentLoaded", () => {
-    const serviceInput = document.querySelector('input[placeholder*="Service Number"]');
-    const nameInput = document.querySelector('input[placeholder*="Customer Name"]');
-    const amountInput = document.querySelector('input[placeholder*="Amount"]');
+    const allInputs = document.querySelectorAll('input');
+    const serviceInput = allInputs[0];
+    const nameInput = allInputs[1];
+    const amountInput = allInputs[3];
 
-    if (!serviceInput || !nameInput || !amountInput) {
-        return;
-    }
+    if (serviceInput) {
+        serviceInput.addEventListener('blur', function() {
+            const serviceNumber = serviceInput.value.trim();
+            if(serviceNumber === "") return;
 
-    serviceInput.addEventListener('blur', function() {
-        const serviceNumber = serviceInput.value.trim();
-        if(serviceNumber === "") return;
+            if(nameInput) nameInput.value = "Fetching from Server...";
+            if(amountInput) amountInput.value = "Please wait...";
 
-        nameInput.value = "Fetching from Server...";
-        amountInput.value = "Please wait...";
-
-        fetch(`https://jsonplaceholder.typicode.com/users/${Math.floor(Math.random() * 10) + 1}`)
-        .then(response => response.json())
-        .then(data => {
-            const randomAmount = Math.floor(Math.random() * (4500 - 1200 + 1)) + 1200; 
-            
-            setTimeout(() => {
-                nameInput.value = data.name + " (Mahakali Digital)";
-                amountInput.value = randomAmount;
-            }, 1200);
-        })
-        .catch(error => {
-            setTimeout(() => {
-                nameInput.value = "Akashkumar Rajkumar";
-                amountInput.value = "2450";
-            }, 1200);
+            fetch(`https://jsonplaceholder.typicode.com/users/${Math.floor(Math.random() * 10) + 1}`)
+            .then(response => response.json())
+            .then(data => {
+                const randomAmount = Math.floor(Math.random() * (4500 - 1200 + 1)) + 1200; 
+                
+                setTimeout(() => {
+                    if(nameInput) nameInput.value = data.name + " (Mahakali)";
+                    if(amountInput) amountInput.value = randomAmount;
+                }, 1000);
+            })
+            .catch(error => {
+                setTimeout(() => {
+                    if(nameInput) nameInput.value = "Akashkumar Rajkumar";
+                    if(amountInput) amountInput.value = "2450";
+                }, 1000);
+            });
         });
-    });
+    }
 });
 </script>
+
 </body>
 </html>
